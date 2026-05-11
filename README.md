@@ -1,70 +1,70 @@
 # 7aclock
 
-Analogowy zegar X11 z opcjonalnym wyświetlaniem daty na tarczy. Inspirowany `xclock` i `urxvclock`.
+Analog X11 clock with optional date display inside the clock face. Inspired by `xclock` and `urxvclock`.
 
 ![7aclock](7aclock.png)
 
-## Funkcje
+## Features
 
-- Wskazówki lancetowe (zaostrzone końce)
-- Opcjonalne wyświetlanie daty wewnątrz tarczy
-- Obsługa przezroczystości tła (wymaga compositora, np. picom)
-- Flicker-free rendering (podwójne buforowanie)
-- Inteligentny sleep: bez wskazówki sekund zegar budzi się raz na minutę
-- Pełna obsługa geometrii X11 włącznie z ujemnymi offsetami (np. `-5+5` = 5px od prawej krawędzi)
-- Tytuł okna z formatowaniem strftime (np. `%H:%M`)
-- WM_CLASS dla reguł window managera
+- Lance-shaped hands (pointed tips)
+- Optional date display inside the clock face
+- Background transparency support (requires a compositor such as picom)
+- Flicker-free rendering via double buffering
+- Smart sleep: without the seconds hand the clock wakes once per minute
+- Full X11 geometry support including negative offsets (e.g. `-5+5` = 5px from the right edge)
+- Window title with strftime formatting (e.g. `%H:%M`)
+- WM_CLASS property for window manager rules
 
-## Kompilacja
+## Building
 
-Wymagane zależności: `libx11`, `cairo`, `cairo-xlib`.
+Dependencies: `libx11`, `cairo`, `cairo-xlib`.
 
 ```sh
 make
 sudo make install PREFIX=/usr/local
 ```
 
-## Użycie
+## Usage
 
 ```sh
-7aclock [opcje]
+7aclock [options]
 ```
 
-### Opcje
+### Options
 
-| Opcja | Opis | Domyślnie |
+| Option | Description | Default |
 |---|---|---|
-| `-date` | Wyświetl datę na tarczy | wyłączone |
-| `-dateformat FMT` | Format daty (strftime) | `%d %b` |
-| `-noseconds` | Ukryj wskazówkę sekund | wyłączone |
-| `-noring` | Ukryj zewnętrzny pierścień tarczy | wyłączone |
-| `-alpha N` | Przezroczystość tła 0.0–1.0 | `1.0` |
-| `-bg COLOR` | Kolor tła | `#1a1a2e` |
-| `-fg COLOR` | Kolor tarczy i kresek | `#e0e0e0` |
-| `-hd COLOR` | Kolor wskazówek godzin i minut | `#e0e0e0` |
-| `-sd COLOR` | Kolor wskazówki sekund | `#e05050` |
-| `-dc COLOR` | Kolor tekstu daty | jak `-fg` |
-| `-db COLOR` | Tło okienka daty | jak `-bg` |
-| `-padding N` | Wewnętrzny margines w pikselach | `4` |
-| `-title FMT` | Tytuł okna (obsługuje strftime) | `7aclock` |
+| `-date` | Show date inside the clock face | off |
+| `-dateformat FMT` | Date format string (strftime) | `%d %b` |
+| `-noseconds` | Hide the seconds hand | off |
+| `-noring` | Hide the outer ring of the clock face | off |
+| `-alpha N` | Background opacity 0.0–1.0 | `1.0` |
+| `-bg COLOR` | Background color | `#1a1a2e` |
+| `-fg COLOR` | Face, ticks and border color | `#e0e0e0` |
+| `-hd COLOR` | Hour and minute hand color | `#e0e0e0` |
+| `-sd COLOR` | Seconds hand color | `#e05050` |
+| `-dc COLOR` | Date text color | same as `-fg` |
+| `-db COLOR` | Date box background | same as `-bg` |
+| `-padding N` | Inner padding in pixels | `4` |
+| `-title FMT` | Window title; strftime formats supported | `7aclock` |
 | `-name NAME` | WM_CLASS instance name | `7aclock` |
 | `-class CLASS` | WM_CLASS class name | `7aclock` |
-| `-geometry WxH+X+Y` | Geometria okna | — |
-| `-update MS` | Stały interwał odświeżania (ms) | auto |
+| `-geometry WxH+X+Y` | Window geometry | — |
+| `-update MS` | Fixed redraw interval in ms (overrides auto-sync) | auto |
 
-Naciśnij `q` lub `Escape` aby zamknąć.
+Press `q` or `Escape` to quit.
 
-## Przykłady
+## Examples
 
 ```sh
-# Zegar z datą, bez pierścienia, w rogu ekranu
+# Clock with date, no ring, pinned to the top-right corner
 7aclock -geometry 150x150-5+5 -date -noseconds -noring \
         -fg "#7f7f7f" -hd "#a59f80" -bg grey \
         -title "%H:%M, %d %b"
 
-# Przezroczyste tło (wymaga compositora)
+# Transparent background (requires a compositor)
 7aclock -alpha 0.5 -bg black -fg white
 
-# Większy zegar z niestandardowym formatem daty
+# Larger clock with a custom date format
 7aclock -geometry 200x200 -date -dateformat "%A" -noseconds
 ```
